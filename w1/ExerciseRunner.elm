@@ -31,7 +31,7 @@ fontStyles : Html msg
 fontStyles =
     Html.div []
         [ Html.node "link"
-            [ Html.Attributes.href "http://fonts.googleapis.com/css?family=Lobster"
+            [ Html.Attributes.href "http://fonts.googleapis.com/css?family=Cabin"
             , Html.Attributes.rel "stylesheet"
             , Html.Attributes.type_ "text/css"
             ]
@@ -46,7 +46,7 @@ fontStyles =
             []
             [ Html.text """
 h1, h2, .title-font { font-family: 'Lobster', Georgia, Times, serif; }
-h1 { font-size: 90px; line-height: 100px; border-bottom: 3px solid black; }
+h1 { font-size: 50px; line-height: 100px; border-bottom: 3px solid black; }
 h2 { font-size: 70px; line-height: 100px; }
 
 body {
