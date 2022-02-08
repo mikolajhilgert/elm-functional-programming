@@ -53,6 +53,7 @@ body {
 font-family: 'Cabin', Helvetica, Arial, sans-serif;
 font-size: 15px;
 line-height: 25px;
+background-color: #c9c9c9;
 }
 """
             ]

@@ -7,6 +7,7 @@ import Char exposing (toLower)
 import List exposing (length)
 import Char exposing (fromCode, toCode, isUpper, isLower)
 import Basics exposing (modBy)
+import Tuple exposing (first, second)
 
 --
 -- Caesar
@@ -42,6 +43,24 @@ isTriple adj op hyp =
     adj > 0 && op > 0 && hyp > 0 && ((sqr adj + sqr op) == sqr hyp)
 
 
+leg1: Int -> Int -> Int
+leg1 x y = x^2 - y^2
+
+leg2: Int -> Int -> Int
+leg2 x y = 2 * y * x
+
+hypotenuse: Int -> Int -> Int
+hypotenuse x y = x^2 + y^2
+
+pythTriple: (Int, Int) -> (Int, Int, Int)
+pythTriple numberSet = (leg1 (first numberSet) (second numberSet),
+                        leg2 (first numberSet) (second numberSet),
+                        hypotenuse (first numberSet) (second numberSet))
+
+
+isTripleTuple: (Int, Int, Int) -> Bool
+isTripleTuple sideSet =
+    let (adj,op,hyp) = sideSet in isTriple adj op hyp
 
 
 caesar1 : List ( String, List ExerciseRunner.Example )
@@ -68,12 +87,30 @@ caesar1 =
 pythagoras1 : List ( String, List ExerciseRunner.Example )
 pythagoras1 =
     [ ( "Pythagoras (part 1)"
-        , [ ExerciseRunner.functionExample3 "sqr & adj"
+        , [ ExerciseRunner.functionExample3 "sqr & isTriple"
             isTriple
             [ ( (3, 4, 5), True )
             , ( (3, 4, 6), False )
             ]
         ]
+        ),
+        ( ""
+        , [ ExerciseRunner.functionExample1 "pythTriple "
+            pythTriple
+            [ ( (5,4), (9,40,41) )]
+          ]
+        ),
+        ( ""
+        , [ ExerciseRunner.functionExample1 "isTripleTuple"
+            isTripleTuple
+            [ ( (9,40,41), True )]
+          ]
+        ),
+        ( ""
+          , [ ExerciseRunner.functionExample1 "isTripleTuple with pythTriple "
+              isTripleTuple
+              [( (pythTriple (5,4)) , True )]
+            ]
         )
     -- , ( "HTML", [] )
     ]
