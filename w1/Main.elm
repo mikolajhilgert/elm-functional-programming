@@ -13,33 +13,32 @@ import Char exposing (fromCode, toCode, isUpper, isLower)
 -- Encode & Decode
 --
 
+char_bounds: Int-> Char -> Char -> Char -> Char
+char_bounds offset char upper lower = 
+    if toCode char + offset > toCode upper then
+        fromCode (((toCode char + offset) - toCode upper) + (toCode lower - 1))
+    else if  toCode char + offset < toCode upper then
+        fromCode (((toCode char + offset) - toCode upper) + (toCode lower + 1))
+    else fromCode (toCode char + offset)
 
 encode: Int -> Char -> Char
 encode offset char =
     if isUpper char then
-        if toCode char + offset > toCode 'Z' then
-            fromCode (((toCode char + offset) - toCode 'Z') + (toCode 'A' - 1))
-        else fromCode (toCode char + offset)
+        char_bounds offset char 'Z' 'A'
     else if isLower char then
-        if toCode char + offset > toCode 'z' then
-            fromCode (((toCode char + offset) - toCode 'z') + (toCode 'a' - 1))
-        else fromCode (toCode char + offset)
+        char_bounds offset char 'z' 'a'
     else char
 
 decode: Int -> Char -> Char
 decode offset char =
     if isUpper char then
-        if toCode char - offset < toCode 'A' then
-            fromCode (((toCode char - offset) - toCode 'A') + (toCode 'Z' + 1))
-        else fromCode (toCode char - offset)
+        char_bounds (0 - offset) char 'A' 'Z'
     else if isLower char then
-        if toCode char - offset < toCode 'a' then
-            fromCode (((toCode char - offset) - toCode 'a') + (toCode 'z' + 1))
-        else fromCode (toCode char - offset)
+        char_bounds (0 - offset) char 'a' 'z'
     else char
 
-examples : List ( String, List ExerciseRunner.Example )
-examples =
+caesar1 : List ( String, List ExerciseRunner.Example )
+caesar1 =
     [ ( "Caesar (part 1)"
       , [ ExerciseRunner.functionExample2 "encode"
             encode
@@ -65,7 +64,7 @@ main =
     Html.div
         [ Html.Attributes.style "padding" "20px" ]
         [ ExerciseRunner.fontStyles
-        , examples
+        , caesar1
             |> List.map (\( title, x ) -> ExerciseRunner.viewExampleSection title x)
             |> Html.div []
         ]
