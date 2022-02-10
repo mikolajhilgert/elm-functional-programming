@@ -52,9 +52,9 @@ hypotenuse: Int -> Int -> Int
 hypotenuse x y = x^2 + y^2
 
 pythTriple: (Int, Int) -> (Int, Int, Int)
-pythTriple numberSet = (leg1 (first numberSet) (second numberSet),
-                        leg2 (first numberSet) (second numberSet),
-                        hypotenuse (first numberSet) (second numberSet))
+pythTriple (first, second) = (leg1 first second,
+                        leg2 first second,
+                        hypotenuse first second)
 
 
 isTripleTuple: (Int, Int, Int) -> Bool
