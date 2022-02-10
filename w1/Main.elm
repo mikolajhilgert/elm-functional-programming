@@ -42,7 +42,6 @@ isTriple: Int -> Int -> Int -> Bool
 isTriple adj op hyp = 
     adj > 0 && op > 0 && hyp > 0 && ((sqr adj + sqr op) == sqr hyp)
 
-
 leg1: Int -> Int -> Int
 leg1 x y = x^2 - y^2
 
@@ -59,8 +58,8 @@ pythTriple numberSet = (leg1 (first numberSet) (second numberSet),
 
 
 isTripleTuple: (Int, Int, Int) -> Bool
-isTripleTuple sideSet =
-    let (adj,op,hyp) = sideSet in isTriple adj op hyp
+isTripleTuple (adj,op,hyp) =
+    isTriple adj op hyp
 
 
 caesar1 : List ( String, List ExerciseRunner.Example )
@@ -98,7 +97,7 @@ pythagoras1 =
         , [ ExerciseRunner.functionExample1 "pythTriple "
             pythTriple
             [ ( (5,4), (9,40,41) )]
-          ]
+        ]
         ),
         ( ""
         , [ ExerciseRunner.functionExample1 "isTripleTuple"
