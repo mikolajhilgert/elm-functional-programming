@@ -59,8 +59,8 @@ pythTriple numberSet = (leg1 (first numberSet) (second numberSet),
 
 
 isTripleTuple: (Int, Int, Int) -> Bool
-isTripleTuple sideSet =
-    let (adj,op,hyp) = sideSet in isTriple adj op hyp
+isTripleTuple (adj,op,hyp) =
+                        isTriple adj op hyp
 
 
 caesar1 : List ( String, List ExerciseRunner.Example )
