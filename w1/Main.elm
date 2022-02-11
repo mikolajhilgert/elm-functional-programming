@@ -42,7 +42,6 @@ isTriple: Int -> Int -> Int -> Bool
 isTriple adj op hyp = 
     adj > 0 && op > 0 && hyp > 0 && ((sqr adj + sqr op) == sqr hyp)
 
-
 leg1: Int -> Int -> Int
 leg1 x y = x^2 - y^2
 
@@ -53,10 +52,9 @@ hypotenuse: Int -> Int -> Int
 hypotenuse x y = x^2 + y^2
 
 pythTriple: (Int, Int) -> (Int, Int, Int)
-pythTriple numberSet = (leg1 (first numberSet) (second numberSet),
-                        leg2 (first numberSet) (second numberSet),
-                        hypotenuse (first numberSet) (second numberSet))
-
+pythTriple (first, second) = (leg1 first second,
+                        leg2 first second,
+                        hypotenuse first second)
 
 isTripleTuple: (Int, Int, Int) -> Bool
 isTripleTuple (adj,op,hyp) =
@@ -98,21 +96,20 @@ pythagoras1 =
         , [ ExerciseRunner.functionExample1 "pythTriple "
             pythTriple
             [ ( (5,4), (9,40,41) )]
-          ]
+        ]
         ),
         ( ""
         , [ ExerciseRunner.functionExample1 "isTripleTuple"
             isTripleTuple
             [ ( (9,40,41), True )]
-          ]
+        ]
         ),
         ( ""
-          , [ ExerciseRunner.functionExample1 "isTripleTuple with pythTriple "
-              isTripleTuple
-              [( (pythTriple (5,4)) , True )]
+        , [ ExerciseRunner.functionExample1 "isTripleTuple with pythTriple "
+            isTripleTuple
+            [( (pythTriple (5,4)) , True )]
             ]
         )
-    -- , ( "HTML", [] )
     ]
 
 
