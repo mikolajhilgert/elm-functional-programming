@@ -12,10 +12,13 @@ import Tuple exposing (first, second)
 --
 -- Caesar
 --
+
+-- Encryption formula with modulo operator.
 shift_char: Int -> Char -> Char -> Char
 shift_char offset char bound = 
     fromCode (modBy 26 (toCode char - toCode bound + offset) + toCode bound)
 
+-- Depending on the lower/upper case pass different 'bound' symbol.
 encode: Int -> Char -> Char
 encode offset char =
     if isLower char then
@@ -25,6 +28,7 @@ encode offset char =
     else
         char
 
+-- Reuse encode function with negative offset.
 decode: Int -> Char -> Char
 decode offset char =
     encode (0 - offset) char
@@ -35,32 +39,36 @@ decode offset char =
 -- Pythagoras
 --
 
+-- Compute square.
 sqr: Int -> Int
 sqr val = val * val
 
+-- Verify if values suit Pythagoras equality.
 isTriple: Int -> Int -> Int -> Bool
 isTriple adj op hyp = 
     adj > 0 && op > 0 && hyp > 0 && ((sqr adj + sqr op) == sqr hyp)
 
+-- Find one side.
 leg1: Int -> Int -> Int
 leg1 x y = x^2 - y^2
-
+-- Find another side.
 leg2: Int -> Int -> Int
 leg2 x y = 2 * y * x
-
+-- Find hypotenuse.
 hypotenuse: Int -> Int -> Int
 hypotenuse x y = x^2 + y^2
-
+-- Form Pythagoras triple from two values.
+-- TODO: (x2 − y2, 2yx, x2 + y2) is a Pythagorean triple for all positive integers x and y with x > y.
 pythTriple: (Int, Int) -> (Int, Int, Int)
 pythTriple (first, second) = (leg1 first second,
                         leg2 first second,
                         hypotenuse first second)
-
+-- Verify if values suit Pythagoras equality by taking a tuple as a parameter.
 isTripleTuple: (Int, Int, Int) -> Bool
 isTripleTuple (adj,op,hyp) =
                         isTriple adj op hyp
 
-
+-- REPRESENTATION
 caesar1 : List ( String, List ExerciseRunner.Example )
 caesar1 =
     [ ( "Caesar (part 1)"
@@ -85,7 +93,7 @@ caesar1 =
 pythagoras1 : List ( String, List ExerciseRunner.Example )
 pythagoras1 =
     [ ( "Pythagoras (part 1)"
-        , [ ExerciseRunner.functionExample3 "sqr & isTriple"
+        , [ ExerciseRunner.functionExample3 "isTriple"
             isTriple
             [ ( (3, 4, 5), True )
             , ( (3, 4, 6), False )
