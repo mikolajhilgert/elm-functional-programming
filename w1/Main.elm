@@ -56,7 +56,6 @@ pythTriple (first, second) = (leg1 first second,
                         leg2 first second,
                         hypotenuse first second)
 
-
 isTripleTuple: (Int, Int, Int) -> Bool
 isTripleTuple (adj,op,hyp) =
     isTriple adj op hyp
@@ -103,15 +102,14 @@ pythagoras1 =
         , [ ExerciseRunner.functionExample1 "isTripleTuple"
             isTripleTuple
             [ ( (9,40,41), True )]
-          ]
+        ]
         ),
         ( ""
-          , [ ExerciseRunner.functionExample1 "isTripleTuple with pythTriple "
-              isTripleTuple
-              [( (pythTriple (5,4)) , True )]
+        , [ ExerciseRunner.functionExample1 "isTripleTuple with pythTriple "
+            isTripleTuple
+            [( (pythTriple (5,4)) , True )]
             ]
         )
-    -- , ( "HTML", [] )
     ]
 
 
