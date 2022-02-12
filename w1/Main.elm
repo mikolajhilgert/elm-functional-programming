@@ -49,20 +49,28 @@ isTriple adj op hyp =
     adj > 0 && op > 0 && hyp > 0 && ((sqr adj + sqr op) == sqr hyp)
 
 -- Find one side.
+validXY: Int -> Int -> Bool
+validXY x y = x>0 && y>0 && x>y
+
+-- Find one side.
 leg1: Int -> Int -> Int
-leg1 x y = x^2 - y^2
+leg1 x y =
+      if validXY x y then x^2 - y^2
+      else 0
 -- Find another side.
 leg2: Int -> Int -> Int
-leg2 x y = 2 * y * x
+leg2 x y =
+      if validXY x y then 2 * y * x
+      else 0
 -- Find hypotenuse.
 hypotenuse: Int -> Int -> Int
-hypotenuse x y = x^2 + y^2
+hypotenuse x y =
+      if validXY x y then x^2 + y^2
+      else 0
 -- Form Pythagoras triple from two values.
--- TODO: (x2 − y2, 2yx, x2 + y2) is a Pythagorean triple for all positive integers x and y with x > y.
 pythTriple: (Int, Int) -> (Int, Int, Int)
-pythTriple (first, second) = (leg1 first second,
-                        leg2 first second,
-                        hypotenuse first second)
+pythTriple (first, second) =
+        (leg1 first second, leg2 first second, hypotenuse first second)
 -- Verify if values suit Pythagoras equality by taking a tuple as a parameter.
 isTripleTuple: (Int, Int, Int) -> Bool
 isTripleTuple (adj,op,hyp) =
