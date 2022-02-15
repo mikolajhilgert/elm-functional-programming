@@ -91,7 +91,7 @@ caesar2 =
             ]
         ),
         ( ""
-            , [ ExerciseRunner.functionExample2 "encode"
+            , [ ExerciseRunner.functionExample2 "decode"
                 decode
                 [ ( (7, "OlssvMvuafz"), "HelloFontys" )]
             ]
