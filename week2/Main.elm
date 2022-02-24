@@ -5,7 +5,7 @@ import Html exposing (Html)
 import Html.Attributes
 import Char exposing (toLower)
 import List exposing (filter, length, map)
-import Char exposing (fromCode, toCode, isUpper, isLower)
+import Char exposing (fromCode, toCode, isUpper, isLower) 
 import Basics exposing (modBy)
 import Pythagoras exposing (isTripleTuple, pythTriple)
 import String exposing (fromChar, fromList, toList)
@@ -17,8 +17,8 @@ import Caesar exposing (encodeChar, decodeChar)
 
 sanitize: Char -> Bool
 sanitize char =
-               ((toCode char >= toCode 'a'  ) && (toCode char <= toCode 'z')) ||
-               ((toCode char >= toCode 'A'  ) && (toCode char <= toCode 'Z'))
+            ((toCode char >= toCode 'a'  ) && (toCode char <= toCode 'z')) ||
+            ((toCode char >= toCode 'A'  ) && (toCode char <= toCode 'Z'))
 
 normalize: String -> String
 normalize string =
@@ -65,13 +65,14 @@ arePythTriplesFilter list =
 
 arePythTriplesRec: List (Int, Int, Int) -> List (Int, Int, Int)
 arePythTriplesRec list =
-     case list of
+    case list of
             [] ->
                 []
             x :: xs ->
                 if isTripleTuple x then
                     x :: (arePythTriplesRec xs)
-                else (arePythTriplesRec xs)
+                else 
+                    (arePythTriplesRec xs)
 
 
 
