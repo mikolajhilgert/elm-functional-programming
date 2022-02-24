@@ -25,18 +25,17 @@ containsCanary canary text reset =
     ( [], _ ) -> True
     ( _, [] ) -> False
 
-
 repeat: Int -> List String -> String -> List(Int,String)
-repeat n can text =
-    case can of
+repeat n canary text =
+    case canary of
     (x :: xs) ->
         if n == 26 then
             repeat 0 xs text
         else 
             if containsCanary x (decode n text) x then
-                (n,(decode n text)) :: repeat (n+1) can text
+                (n,(decode n text)) :: repeat (n+1) canary text
             else
-                repeat (n+1) can text
+                repeat (n+1) canary text
     [] ->
         []
 
