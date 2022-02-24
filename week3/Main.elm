@@ -14,14 +14,14 @@ import Caesar exposing (encodeChar, decodeChar, encode, sanitize, normalize, dec
 -- Caesar (Part 3)
 --
 
-containsCanary: String -> String -> Bool
-containsCanary canary text =
+containsCanary: String -> String -> String -> Bool
+containsCanary canary text reset =
     case (toList canary, toList text) of
     (x :: xs, y :: ys) ->
         if x == y then
-            containsCanary (fromList xs) (fromList ys)
+            containsCanary (fromList xs) (fromList ys) reset
         else 
-            containsCanary canary (fromList ys)
+            containsCanary reset (fromList ys) reset
     ( [], _ ) -> True
     ( _, [] ) -> False
 
@@ -33,7 +33,7 @@ repeat n can text =
         if n == 26 then
             repeat 0 xs text
         else 
-            if containsCanary x (decode n text) then
+            if containsCanary x (decode n text) x then
                 (n,(decode n text)) :: repeat (n+1) can text
             else
                 repeat (n+1) can text
