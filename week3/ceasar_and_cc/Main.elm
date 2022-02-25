@@ -130,6 +130,12 @@ caesar3 =
             candidates
             [ ( (["AND","THE"],"DGGADBCOOCZYMJHZYVMTOJOCZHVS"),  [(5,"YBBVYWXJJXUTHECUTQHOJEJXUCQN"),(14,"PSSMPNOAAOLKYVTLKHYFAVAOLTHE"),(21,"ILLFIGHTTHEDROMEDARYTOTHEMAX")] )]
         ]
+    ),
+    ( ""
+        , [ ExerciseRunner.functionExample2 "candidates"
+            candidates
+            [ ( (["AND","THE"],"AXEEHTGWPXEVHFX"),  [(19,"HELLOANDWELCOME")] )]
+        ]
     )
     -- , ( "HTML", [] )
     ]
@@ -137,7 +143,7 @@ caesar3 =
 cc : List ( String, List ExerciseRunner.Example )
 cc =
     [( "CreditCard Validation"
-        , [ ExerciseRunner.functionExample1 "DigitsRev"
+        , [ ExerciseRunner.functionExample1 "toDigits"
             toDigits
             [ ("4012888888881881",  [4,0,1,2,8,8,8,8,8,8,8,8,1,8,8,1])]
         ]
