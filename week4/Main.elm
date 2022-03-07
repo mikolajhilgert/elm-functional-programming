@@ -6,7 +6,7 @@ import Html.Attributes
 import Char exposing (toLower)
 import List exposing (length)
 import String exposing (fromInt,fromFloat)
-import Basics exposing (modBy)
+import Basics exposing (modBy,abs)
 import Tuple exposing (first, second)
 
 --
@@ -49,9 +49,17 @@ graph: func xmin xmax ymin ymax =
     if xmax == xmin then
         ""
     else
-        (eval xmax func) ++ graph func xmin (xmax - 1) ymin ymax
+        (drawLine (eval xmax func) ymin ymax ymin) ++ graph func xmin (xmax - 1) ymin ymax
 
-drawLine: Float -> String
+drawLine: Float -> Int -> Int -> String
+drawLine value lower upper current =
+    if current < value and current <= upper then
+        "*" ++ (drawLine value lower upper (current+1))
+    else if current <= upper then
+        "-" ++ (drawLine value lower upper (current+1))
+    else 
+        ""
+
 
 -- REPRESENTATION
 math1 : List ( String, List ExerciseRunner.Example )
@@ -66,6 +74,12 @@ math1 =
         , [ ExerciseRunner.functionExample2 "eval"
             eval
             [ ((2.0,(Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))), -148.0 )]
+        ]
+        ),
+        ( ""
+        , [ ExerciseRunner.functionExample2 "eval"
+            eval
+            [ ((2.0,(Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))), "" )]
         ]
         )
     -- , ( "HTML", [] )
