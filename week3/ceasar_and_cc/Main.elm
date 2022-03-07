@@ -76,20 +76,17 @@ toDigitsRev x =
 -- Ex. 2
 -- ===================================
 
-secondHelper: Bool -> List Int -> List Int
-secondHelper isOdd i =
-    case i of
-    [] ->
-        []
-    x :: xs ->
-        if isOdd then
-            x*2 :: secondHelper False xs
-        else
-            x :: secondHelper True xs
+doubleSecond: Bool ->List Int -> List Int
+doubleSecond isSecond list =
+    case list of
+        [] -> []
+        (x::xs) ->
+            if isSecond == True then
+                if 2*x >= 10 then
+                  1::(remainderBy 10 (2*x))::(doubleSecond False xs)
+                else 2*x::(doubleSecond False xs)
+            else x::(doubleSecond True xs)
 
-doubleSecond: List Int -> List Int
-doubleSecond xs = 
-    secondHelper False xs
 
 -- ===================================
 -- Ex. 3
@@ -97,7 +94,7 @@ doubleSecond xs =
 
 sumDigits: List Int -> Int
 sumDigits xs = 
-    foldr (+) 0 (toDigits (concat (map fromInt (doubleSecond xs)))) 
+    foldr (+) 0 (toDigits (concat (map fromInt (doubleSecond False xs))))
 
 -- ===================================
 -- Ex. 4
@@ -105,10 +102,8 @@ sumDigits xs =
 
 isValid: String -> Bool
 isValid x = 
-    if (modBy 10 (sumDigits (toDigitsRev x)) == 0) then
-        True
-    else
-        False
+    modBy 10 (sumDigits (toDigitsRev x)) == 0
+
 
 
 -- ===================================
@@ -155,9 +150,9 @@ cc =
         ]
     ),
     ( ""
-        , [ ExerciseRunner.functionExample1 "doubleSecond"
+        , [ ExerciseRunner.functionExample2 "doubleSecond"
             doubleSecond
-            [ ((toDigitsRev "4012888888881881"),  [1,16,8,2,8,16,8,16,8,16,8,16,2,2,0,8])]
+            [ ((False ,toDigitsRev "4012888888881881"),  [1,1,6,8,2,8,1,6,8,1,6,8,1,6,8,1,6,2,2,0,8])]
         ]
     ),
     ( ""
