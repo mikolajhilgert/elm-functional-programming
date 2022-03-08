@@ -4,8 +4,8 @@ import ExerciseRunner
 import Html exposing (Html)
 import Html.Attributes
 import Char exposing (toLower)
-import List exposing (length)
-import String exposing (fromInt,fromFloat)
+import List exposing (drop, length)
+import String exposing (fromFloat, fromInt)
 import Basics exposing (modBy,abs)
 import Tuple exposing (first, second)
 
@@ -13,76 +13,70 @@ import Tuple exposing (first, second)
 -- Modelling math functions
 --
 
-type Function
-    = Poly Function Float
-    | Mult Function Function
-    | Div Function Function
-    | Plus Function Function
-    | Minus Function Function
-    | Const Float
-    | X
+-- Merge sort
+split: Int->List Int -> (List Int, List Int)
+split i list =
+    case list of
+        [] -> ([],[])
+        (x::xs) ->
+            if ((modBy 2 i) == 0) then
+                if length list >= i then
+                   (x::first (split i xs),drop (i - 1) xs)
+                else
+                    ([], [])
+            else
+                if length list > i then
+                   (x::first (split i xs),drop (i - 1) xs)
+                else
+                    ([], [])
 
-print: Function -> String
-print func = 
-    case func of
-        Poly base power -> "("++(print base)++"^"++fromFloat power++")"
-        Mult left right -> "("++(print left) ++ "*" ++ (print right)++")"
-        Div top bottom -> "("++(print top)++")" ++ "/" ++ "("++(print bottom)++")"
-        Plus left right -> "("++(print left) ++ "+" ++ (print right)++")"
-        Minus left right-> "("++(print left) ++ "-" ++ (print right)++")"
-        Const value -> fromFloat value 
-        X -> "x"
+merge: List Int -> List Int -> List Int
+merge left right =
+    case (left,right) of
+        ([],[]) -> []
+        (_,[]) -> left
+        ([],_) -> right
+        (x::xs,y::ys) ->
+            if x < y then
+                x :: merge xs right
+            else
+                y :: merge left ys
 
-eval: Float -> Function -> Float
-eval x func =
-    case func of
-        Poly base power -> (eval x base) ^ power
-        Mult left right -> (eval x left) * (eval x right)
-        Div top bottom ->  (eval x top) / (eval x bottom)
-        Plus left right -> (eval x left) + (eval x right)
-        Minus left right-> (eval x left) - (eval x right)
-        Const value -> value 
-        X -> x
-
-graph: Function -> Int -> Int -> Int -> Int -> String
-graph: func xmin xmax ymin ymax =
-    if xmax == xmin then
-        ""
+msort: List Int -> List Int
+msort input =
+    if length input >= 1 then
+        merge (msort(first (split (round(toFloat(length input) / 2 )) input))) (msort(second (split (round(toFloat(length input) / 2 )) input)))
     else
-        (drawLine (eval xmax func) ymin ymax ymin) ++ graph func xmin (xmax - 1) ymin ymax
+        msort(first (split (round(toFloat(length input) / 2 )) input))
 
-drawLine: Float -> Int -> Int -> String
-drawLine value lower upper current =
-    if current < value and current <= upper then
-        "*" ++ (drawLine value lower upper (current+1))
-    else if current <= upper then
-        "-" ++ (drawLine value lower upper (current+1))
-    else 
-        ""
+--msort: List Int -> List Int
+--msort input =
+--    case input of
+--        [] -> []
+--        _ -> merge (msort(first (split (round(toFloat(length input) / 2 )) input))) (msort(second (split (round(toFloat(length input) / 2 )) input)))
+--
+
+testCase a =
+    (first (split (round(toFloat(length a) / 2 )) a))
 
 
 -- REPRESENTATION
 math1 : List ( String, List ExerciseRunner.Example )
 math1 =
-    [ ( "Modelling math functions (part 1)"
-        , [ ExerciseRunner.functionExample1 "print"
-            print
-            [ ( Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2), "(((3+x)*(x-(x^5)))+2)" )]
-        ]
-        ),
-        ( ""
-        , [ ExerciseRunner.functionExample2 "eval"
-            eval
-            [ ((2.0,(Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))), -148.0 )]
-        ]
-        ),
-        ( ""
-        , [ ExerciseRunner.functionExample2 "eval"
-            eval
-            [ ((2.0,(Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))), "" )]
-        ]
-        )
+    [
     -- , ( "HTML", [] )
+    ( "MergeSort"
+            , [ ExerciseRunner.functionExample2 "Split"
+                split
+                [(((round(toFloat(length [9,5,4,18,3,2]) / 2 )), [9,5,4,18,3,2]),  ([2,3,4,5],[7,8,9,10]))]
+            ]
+    ),
+     ( ""
+         , [ ExerciseRunner.functionExample1 "Merge"
+             testCase
+             [ ([9,5,4,18,3,2,1],  [2,3,5,6,8,9])]
+         ]
+     )
     ]
 
 

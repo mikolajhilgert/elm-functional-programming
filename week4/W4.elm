@@ -15,6 +15,10 @@ import String exposing (fromInt,fromFloat)
 import Basics exposing (modBy,abs)
 import Tuple exposing (first, second)
 
+--
+
+
+
 
 -- your functions:
 
@@ -67,6 +71,10 @@ drawLine value  upper current =
 
 
 -- collecting results for printing:
+
+
+
+
 
 -- arbitrary list:
 f = Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2)
