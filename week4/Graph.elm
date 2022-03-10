@@ -1,4 +1,4 @@
-module W4 exposing (..)
+module Graph exposing (..)
 
 -- steps:
 --      install Elm: https://guide.elm-lang.org/install/elm.html
