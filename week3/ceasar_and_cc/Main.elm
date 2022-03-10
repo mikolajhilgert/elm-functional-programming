@@ -83,7 +83,7 @@ doubleSecond isSecond list =
         (x::xs) ->
             if isSecond == True then
                 if 2*x >= 10 then
-                  1::(remainderBy 10 (2*x))::(doubleSecond False xs)
+                    1::(remainderBy 10 (2*x))::(doubleSecond False xs)
                 else 2*x::(doubleSecond False xs)
             else x::(doubleSecond True xs)
 

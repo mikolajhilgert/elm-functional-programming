@@ -57,11 +57,11 @@ graph func xmin xmax ymin ymax =
         (drawLine (eval xmin func) ymax ymin)++ "\n" ++ graph func (xmin + 1) xmax ymin ymax
 
 drawLine: Float -> Float -> Float -> String
-drawLine value  upper current =
+drawLine value upper current =
     if current < value && current <= upper then
-        "*" ++ (drawLine value upper (current+1))
+        "◾" ++ (drawLine value upper (current+1))
     else if current <= upper then
-        "-" ++ (drawLine value upper (current+1))
+        "◽" ++ (drawLine value upper (current+1))
     else 
         ""
 
@@ -69,14 +69,23 @@ drawLine value  upper current =
 -- collecting results for printing:
 
 -- arbitrary list:
-f = Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2)
+f = Minus p0 p1
+p0 = Div p2 p3
+p1 = Div p4 (Const 3)
+p2 = Poly (Minus (Mult (Const 3) X) (Const 2)) 2
+p3 = Poly (Plus X (Const 7)) 3
+p4 = Plus (Mult (Const 2) X) (Const 5)
+
 g = (Plus (Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Poly (Plus (Div (X) (Const -2)) (Const 2)) 2))(Const 6))
 my_results: List String
 my_results =
     [
         --(Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Plus (Poly (Plus (Div (X) (Const -2)) (Const 2)) (Const 2)) (Const 6)))
         "Graph of g(x) = (x/5 - 1) ^ 4 – ((x/-2) + 2) ^ 2 + 6:\n\n",
-        (graph g -10 20 -10 10)
+        (graph g -10 20 -10 10),
+        "\n\n\n\n",
+        "Graph of f(x) = (((((3*x)-2)^2)/((x+7)^3))-(((2*x)+5)/3)):\n\n",
+        (graph f -20 20 -20 20)
     ] 
     
 -- Boiler-plate below:
@@ -101,4 +110,3 @@ main: Html msg
 main = Html.pre 
         []
         (List.map to_div my_results)
-    
