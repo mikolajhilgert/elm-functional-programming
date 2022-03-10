@@ -75,11 +75,13 @@ p4 = Plus (Mult (Const 2) X) (Const 5)
 
 g = (Plus (Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Poly (Plus (Div (X) (Const -2)) (Const 2)) 2))(Const 6))
 
-h = ( Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))
+h = (Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))
 
 my_results: List String
 my_results =
     [
+        "h = (Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))",
+        "\n\n",
         "(print h)" ++ " Results in: " ++ (print h) ++ "     ✅",
         "\n\n",
         "(eval 2 h)" ++ " Results in: " ++ to_wrap(Debug.toString(eval 2.0 h)) ++ "     ✅",
