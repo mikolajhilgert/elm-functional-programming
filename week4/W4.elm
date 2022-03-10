@@ -15,7 +15,6 @@ import String exposing (fromInt,fromFloat)
 import Basics exposing (modBy,abs)
 import Tuple exposing (first, second)
 
-
 -- your functions:
 
 type Function
@@ -66,8 +65,6 @@ drawLine value upper current =
         ""
 
 
--- collecting results for printing:
-
 -- arbitrary list:
 f = Minus p0 p1
 p0 = Div p2 p3
@@ -77,10 +74,16 @@ p3 = Poly (Plus X (Const 7)) 3
 p4 = Plus (Mult (Const 2) X) (Const 5)
 
 g = (Plus (Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Poly (Plus (Div (X) (Const -2)) (Const 2)) 2))(Const 6))
+
+h = ( Plus (Mult (Plus (Const 3) X) (Minus X (Poly X 5))) (Const 2))
+
 my_results: List String
 my_results =
     [
-        --(Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Plus (Poly (Plus (Div (X) (Const -2)) (Const 2)) (Const 2)) (Const 6)))
+        "(print h)" ++ " Results in: " ++ (print h) ++ "     ✅",
+        "\n\n",
+        "(eval 2 h)" ++ " Results in: " ++ to_wrap(Debug.toString(eval 2.0 h)) ++ "     ✅",
+        "\n\n\n\n",
         "Graph of g(x) = (x/5 - 1) ^ 4 – ((x/-2) + 2) ^ 2 + 6:\n\n",
         (graph g -10 20 -10 10),
         "\n\n\n\n",
