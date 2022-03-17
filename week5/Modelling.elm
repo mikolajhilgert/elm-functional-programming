@@ -76,8 +76,8 @@ derivative func =
         Poly base power -> Mult (Mult (Const power) (Poly base (power - 1))) (derivative base)
         Mult left right -> Plus (Mult (derivative left) right) (Mult left (derivative right))
         Div top bottom -> Div (Minus (Mult bottom (derivative top)) (Mult top (derivative bottom))) (Poly bottom 2)
-        Plus left right -> Plus (derivative left)  (derivative right)
-        Minus left right-> Minus (derivative left)  (derivative right)
+        Plus left right -> Plus (derivative left) (derivative right)
+        Minus left right-> Minus (derivative left) (derivative right)
         Const value -> Const 0
         X -> Const 1
 
@@ -85,6 +85,7 @@ derivative func =
 simplify: Function -> Function
 simplify func =
     case func of
+        Plus (Const left) (Const right) -> Const(left+right)
         Plus left right ->
             if ( simplify left ) == Const 0 then
                 simplify right
@@ -92,6 +93,8 @@ simplify func =
                 simplify left
             else
                 Plus (simplify left) (simplify right)
+
+        Minus (Const left) (Const right) -> Const(left-right)
         Minus left right ->
             if ( simplify left ) == Const 0 then
                 simplify right
@@ -99,8 +102,10 @@ simplify func =
                 simplify left
             else
                 Minus (simplify left) (simplify right)
+
+        Mult (Const left) (Const right) -> Const(left*right)
         Mult left right ->
-            if ( simplify left )  == Const 0 || (simplify right) == Const 0 then
+            if ( simplify left ) == Const 0 || (simplify right) == Const 0 then
                 Const 0
             else if ( simplify left ) == Const 1 then
                 simplify right
@@ -108,6 +113,15 @@ simplify func =
                 simplify left
             else
                 Mult (simplify left) (simplify right)
+
+        Div (Const a) (Const b) -> Const(a/b)
+        Div top bottom ->
+            if (simplify bottom) == Const 1 then
+                simplify top
+            else
+                Div (simplify top) (simplify bottom)
+
+        Poly (Const base) (power) -> Const(base^power)
         Poly base power ->
             if power == 0 then
                 Const 1
@@ -115,11 +129,7 @@ simplify func =
                 simplify base
             else
                 Poly (simplify base) power
-        Div top bottom ->
-            if (simplify bottom) == Const 1 then
-                simplify top
-            else
-                Div (simplify top) (simplify bottom)
+
         Const value -> Const value
         X -> X
 
@@ -144,7 +154,11 @@ my_results =
         --(Minus (Poly (Minus (Div (X) (Const 5)) (Const 1)) 4) (Plus (Poly (Plus (Div (X) (Const -2)) (Const 2)) (Const 2)) (Const 6)))
         "f(x) = " ++ print f ++"\n\n",
         "f'(x) = "++print (derivative f)++"\n\n",
-        "simplified f'(x) = "++print (simplify (derivative f))++"\n\n"
+        "simplified f'(x) = "++print (simplify (derivative f))++"\n\n",
+        "\n\n",
+        "g(x) = " ++ print g ++"\n\n",
+        "g'(x) = "++print (derivative g)++"\n\n",
+        "simplified g'(x) = "++print (simplify (derivative g))++"\n\n"
     ] 
     
 -- Boiler-plate below:

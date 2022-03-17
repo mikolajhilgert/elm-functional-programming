@@ -1,7 +1,7 @@
 module Higher_Order exposing (..)
 
 import Html exposing (Html)
-import Basics exposing (toFloat)
+import Basics exposing (toFloat,modBy,logBase)
 
 -- your functions:
 
@@ -9,33 +9,39 @@ aboveVal: Int -> Int -> Bool
 aboveVal val x = 
     x > val
 
+contains1: List Int -> Bool 
+contains1 list =
+    case list of
+        [] -> False
+        (x :: xs) -> x == 1
+
 double: Int -> Int
 double x =
     x * 2
 
+exp: Int -> Int -> Int -> Int
+exp target base power =
+    if ((base ^ power) > target) then
+        base ^ power
+    else 
+        exp target base (power + 1)
+
 repeatUntil: (a -> Bool) -> (a -> a) -> a -> a
 repeatUntil predicate operation input =
-    if ((predicate input) == False) then
-        repeatUntil predicate operation (operation input)
-    else
+    if (predicate input) then
         input
+    else
+        repeatUntil predicate operation (operation input)
 
-repeatUntilCollatz: (a -> Bool) -> (a -> a) -> List a -> List a
-repeatUntilCollatz predicate operation input =
-    case input of
+myCollatz: List Int -> List Int
+myCollatz list =
+    case list of 
         [] -> []
         (x :: xs) ->
-            if ((predicate x) == False) then
-                repeatUntilCollatz predicate operation ((operation x) :: input)
+            if (modBy 2 x == 0) then
+                x//2 :: x :: xs
             else
-                input
-
-myCollatz: Int -> Int
-myCollatz x =
-    if (Basics.modBy 2 x == 0) then
-        x//2
-    else
-        1 + (3*x)
+                1 + (3*x) :: x :: xs
 
 
 -- collecting results for printing:
@@ -45,8 +51,9 @@ my_results: List String
 my_results =
     [
         "repeatUntil (aboveVal 100) double 7 = " ++ pr (repeatUntil (aboveVal 100) double 7)++"\n\n",
+        "log_3 100 = " ++ pr (logBase 3 (toFloat (repeatUntil (aboveVal 100) (exp 100 3) 0))) ++ "\n\n",
         "repeatUntil (aboveVal 100) ((+) 1) 42 = "++ pr (repeatUntil (aboveVal 100) ((+) 1) 42)++"\n\n",
-        "repeatUntilCollatz ((==)1) myCollatz [19] = "++ pr (repeatUntilCollatz ((==)1) myCollatz [19])++"\n\n"
+        "repeatUntil for Collatz starting at 19 = "++ pr (repeatUntil contains1 myCollatz [19])++"\n\n"
     ] 
     
 -- Boiler-plate below:
